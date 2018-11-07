@@ -1,6 +1,6 @@
 <?php
 
-use function foo\func;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,14 +11,18 @@ use function foo\func;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::user()) {
+        return redirect('/home');
+    }
+    return view('users.homes.index');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
+<<<<<<< HEAD
 Route::get('query', 'SearchController@search');
 
 Route::middleware(['auth'])->group(function(){
@@ -26,6 +30,18 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/test', 'HomeController@test');
     
     Route::middleware('role:admin')->group(function(){
+=======
+Route::get('/profile', function () {
+    return 'This is Profile';
+})->middleware('verified');
+
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+Route::get('/carts', 'CartController@index');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::middleware('role:admin')->group(function () {
+>>>>>>> 330acd418c3be78722105c8469e3592733b8607b
         Route::get('/admin', 'AdminController@index');
 
         Route::get('/roles', 'RoleController@index');
@@ -36,40 +52,45 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/permissions/store', 'PermissionController@store');
         Route::post('/permissions/update/{id}', 'PermissionController@update');
     });
-    Route::middleware('role:merchant')->group(function(){
+
+    Route::middleware('role:merchant')->group(function () {
         Route::get('/merchant', 'MerchantController@index');
 
-        Route::prefix('/merchant/products')->group(function() {
+        Route::prefix('/merchant/products')->group(function () {
             Route::get('/', 'MerchantController@products');
-            Route::get('/create', 'ProductController@create');
         });
         Route::get('/merchant/orders', 'MerchantController@orders');
     });
-    Route::middleware('role:costumer')->group(function(){
-       //
+
+    Route::middleware('role:customer')->group(function () {
+        Route::post('/carts/delete/{id}', 'CartController@destroy');
+
+        Route::get('/shipping', 'ShippingController@index');
     });
 
-    Route::middleware('role:costumer|admin')->group(function(){
+    Route::middleware('role:costumer|admin')->group(function () {
+
+    });
+
+    Route::middleware('role:merchant|admin')->group(function () {
         Route::get('/products', 'ProductController@index');
-    });
-
-    Route::middleware('role:merchant|admin')->group(function(){
-        Route::get('/products/create', 'ProductController@index');
-        Route::post('/products/store', 'ProductController@store');
+        Route::get('/products/create', 'ProductController@create');
         Route::get('/products/edit/{id}', 'ProductController@edit');
-        Route::post('/products/update/{id}', 'ProductController@update');
         Route::post('/products/delete/{id}', 'ProductController@destroy');
+        Route::post('/products/update/{id}', 'ProductController@update');
+        Route::post('/products/store', 'ProductController@store');
+
+        Route::prefix('/orders')->group(function () {
+            Route::get('/', 'TransactionController@index');
+        });
     });
 
-    Route::middleware('role:merchant|costumer')->group(function(){
-        
+    Route::middleware('role:merchant|customer')->group(function () {
+
     });
 
-    Route::middleware('role:admin|merchant|costumer')->group(function(){
-        Route::get('/products/{id}', 'ProductController@show');
-    });
+    Route::get('/home', 'HomeController@index');
 });
 
-
-
+Route::get('/products/{id}', 'ProductController@show');
 

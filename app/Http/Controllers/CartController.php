@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -14,7 +15,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        return view('users.carts.index');
     }
 
     /**
@@ -78,8 +79,8 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy($id)
     {
-        //
+        Cart::find($id)->delete();
     }
 }

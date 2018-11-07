@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -14,8 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('products.index')->with('products', $products);
+        $products = Product::where('user_id', Auth::user()->id)->get();
+        return view('users.merchants.products.index')->with('products', $products);
     }
 
     /**
@@ -36,17 +38,32 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $uploadedImages = $request->file('images');
+        $imageNames = [];
+
+        foreach ($uploadedImages as $image) {
+            $imageName = time() . $image->getClientOriginalName();
+
+            array_push($imageNames, $imageName);
+
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $imageName);
+        }
+
         $product = new Product();
-        $product->user_id = 1;
+        $product->user_id = Auth::user()->id;
         $product->name = $request->name;
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->sold = 0;
-        $product->specification = $request->specification;
+        $product->specification = json_encode([
+            'dimention' => $request->dimention,
+            'weight' => $request->weight
+        ]);
         $product->description = $request->description;
         $product->color = $request->color;
-        $product->images = $request->image;
-        $product->save();  
+        $product->images = json_encode($imageNames);
+        $product->save();
 
         return redirect('/products')->with('success', 'Product created successfully.');
     }
@@ -56,11 +73,11 @@ class ProductController extends Controller
      *
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
-    */ 
+     */
     public function show($id)
     {
         $product = Product::find($id);
-        return view('products.show')->with('product', $product);
+        return view('users.merchants.products.show')->with('product', $product);
     }
 
     /**
@@ -72,7 +89,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-        return view('products.edit')->with('product', $product);
+        return view('users.merchants.products.edit')->with('product', $product);
     }
 
     /**
@@ -84,17 +101,47 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $newImageNames = [];
+
+        if ($request->file('images')) {
+            $uploadedImages = $request->file('images');
+
+            foreach ($uploadedImages as $image) {
+                $imageName = time() . $image->getClientOriginalName();
+
+                array_push($newImageNames, $imageName);
+
+                $destinationPath = public_path('/images');
+                $image->move($destinationPath, $imageName);
+            }
+        }
+
         $product = Product::find($id);
         $product->name = $request->name;
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->description = $request->description;
-        $product->specification = $request->specification;
+        $product->specification = json_encode([
+            'dimention' => $request->dimention,
+            'weight' => $request->weight
+        ]);
         $product->color = $request->color;
-        $product->images = $request->image;
+
+        $imageNames = json_decode($product->images);
+        $deletedImages = explode(",", $request->deletedImages);
+
+        foreach ($deletedImages as $image) {
+            if (false !== $key = array_search($image, $imageNames)) {
+                unset($imageNames[$key]);
+            }
+        }
+
+        $finalImageNames = array_merge($newImageNames, $imageNames);
+
+        $product->images = json_encode($finalImageNames);
         $product->update();
 
-        return redirect('products/'. $id);
+        return redirect('products/' . $id);
     }
 
     /**
