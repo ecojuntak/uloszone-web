@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Product;
+use App\Search;
 
 class SearchController extends Controller
 {
@@ -13,9 +14,12 @@ class SearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-           return view ('searchs.search');
+        $searchTerm = $request->input('searchTerm');
+        $post = Product::all()->search($searchTerm);
+
+        return view ('searchs.index');
     }
 
     /**
@@ -25,7 +29,7 @@ class SearchController extends Controller
      */
     public function create()
     {  
-          return view ('searchs.search');
+         
     }
 
     /**
@@ -47,7 +51,8 @@ class SearchController extends Controller
      */
     public function show($id)
     {
-    
+         $post = Product::find($id);
+         return view('searchs.show', compact('post'));
     } 
 
     /**
@@ -83,11 +88,11 @@ class SearchController extends Controller
     {
         //
     }
-    public function search(Request $request) 
+    /*public function search(Request $request) 
     {
         $query = $request->get('q');
         $hasil = Product::where('color', 'LIKE', '%' . $query . '%')->paginate(10);
 
         return view('searchs.result', compact('hasil', 'query'));
-    }
+    }*/
 }
