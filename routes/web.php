@@ -17,14 +17,33 @@ Route::get('/', function () {
     return view('users.homes.index');
 });
 Auth::routes(['verify' => true]);
+<<<<<<< HEAD
+=======
+
+Route::get('/login', function() {
+    return redirect('/');
+});
+
+>>>>>>> 69d46075933965495846c913d969e82ea0f7871a
 Route::get('/profile', function () {
     return 'This is Profile';
 })->middleware('verified');
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 Route::get('/carts', 'CartController@index');
 Route::middleware(['auth'])->group(function () {
+<<<<<<< HEAD
     Route::middleware('role:admin')->group(function () {
         Route::get('/admin', 'AdminController@index');
+=======
+    Route::post('/profile/edit/{id}', 'ProfileController@updateAddress');
+    Route::get('/profile/{id}', 'ProfileController@getProfile');
+
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/admin', 'AdminController@index');
+
+        Route::get('/merchantconfirmed', 'MerchantController@merchantbeforeconfirmed');
+
+>>>>>>> 69d46075933965495846c913d969e82ea0f7871a
         Route::get('/roles', 'RoleController@index');
         Route::post('/roles/store', 'RoleController@store');
         Route::post('/roles/update/{id}', 'RoleController@update');

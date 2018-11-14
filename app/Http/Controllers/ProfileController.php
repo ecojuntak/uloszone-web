@@ -35,7 +35,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //
     }
 
     /**
@@ -81,5 +81,30 @@ class ProfileController extends Controller
     public function destroy(Profile $profile)
     {
         //
+    }
+
+    public function getProfile($id) {
+        return response(Profile::where('user_id', $id)->first());
+    }
+
+    public function updateAddress(Request $request, $id) {
+        $profile = Profile::where('user_id', $id)->first();
+
+        $address = json_decode($profile->address);
+   
+        array_push($address, json_encode([
+            'name' => $request->addressName,
+            'province_id' => $request->provinceId,
+            'city_id' => $request->cityId,
+            'subdistrict_id' => $request->subdistrictId,
+            'province_name' => $request->provinceName,
+            'city_name' => $request->cityName,
+            'subdistrict_name' => $request->subdistrictName,
+            'postal_code' => $request->postalCode,
+            'detail' => $request->addressDetail,
+        ]));
+
+        $profile->address = json_encode($address);
+        $profile->update();
     }
 }
