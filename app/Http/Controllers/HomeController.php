@@ -39,4 +39,9 @@ class HomeController extends Controller
         
         return view('users.homes.index');
     }
+
+    public function search()
+    {
+    return viiew('resources.js.components.customer.search');
+    }
 }

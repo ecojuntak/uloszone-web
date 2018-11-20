@@ -69,3 +69,8 @@ new Vue({
     el: '#product-list',
     components: { ProductListMerchantPage }
 })
+
+new Vue({
+    el: '#product-search',
+    components: { ProductSearchCustomerPage}
+})

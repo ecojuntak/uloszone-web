@@ -18,7 +18,7 @@
                                   </div>
 
                                   <div class="card-body">
-                                      <p class="card-title productname">Ulos Ragihotang asdjahslkd</p>
+                                      <p class="card-title productname">Ulos Ragi huting asdjahslkd</p>
                                       <h6 style="color: #ff5205"> Rp 2.400.000</h6>
                                       <p class="card-text float-right">
                                           <small class="text-muted">Balige</small>
@@ -33,8 +33,8 @@
                                   </div>
 
                                   <div class="card-body">
-                                      <p class="card-title productname">Ulos Ragihotang asdjahslkd</p>
-                                      <h6 style="color: #ff5205"> Rp 2.400.000</h6>
+                                      <p class="card-title productname">Ulos Ragi hotang asdjahslkd</p>
+                                      <h6 style="color: #ff5205"> Rp 2.500.000</h6>
                                       <p class="card-text float-right">
                                           <small class="text-muted">Balige</small>
                                       </p>
@@ -48,8 +48,8 @@
                                   </div>
 
                                   <div class="card-body">
-                                      <p class="card-title productname">Ulos Ragihotang asdjahslkd</p>
-                                      <h6 style="color: #ff5205"> Rp 2.400.000</h6>
+                                      <p class="card-title productname">Ulos Tudung-tudung asdjahslkd</p>
+                                      <h6 style="color: #ff5205"> Rp 2.600.000</h6>
                                       <p class="card-text float-right">
                                           <small class="text-muted">Balige</small>
                                       </p>
@@ -63,8 +63,8 @@
                                   </div>
 
                                   <div class="card-body">
-                                      <p class="card-title productname">Ulos Ragihotang asdjahslkd</p>
-                                      <h6 style="color: #ff5205"> Rp 2.400.000</h6>
+                                      <p class="card-title productname">Ulos Ragi Ombun asdjahslkd</p>
+                                      <h6 style="color: #ff5205"> Rp 2.700.000</h6>
                                       <p class="card-text float-right">
                                           <small class="text-muted">Balige</small>
                                       </p>
@@ -82,8 +82,8 @@
                                   </div>
 
                                   <div class="card-body">
-                                      <p class="card-title productname">Ulos Ragihotang asdjahslkd</p>
-                                      <h6 style="color: #ff5205"> Rp 2.400.000</h6>
+                                      <p class="card-title productname">Ulos Ragi Rara asdjahslkd</p>
+                                      <h6 style="color: #ff5205"> Rp 2.800.000</h6>
                                       <p class="card-text float-right">
                                           <small class="text-muted">Balige</small>
                                       </p>

@@ -3,6 +3,7 @@
     <div class="card globalcard">
       <div class="card-header">
         <h5 style="float: left">Produk Terbaru</h5>
+        
         <h6 style="float: right">
           <a href="shop.html" style="color: -webkit-link">see more</a>
         </h6>
@@ -79,3 +80,4 @@ export default {
   }
 };
 </script>
+

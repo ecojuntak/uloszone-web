@@ -52766,7 +52766,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Harga Termurah")]
+                        [_vm._v("")]
                       ),
                       _vm._v(" "),
                       _c(

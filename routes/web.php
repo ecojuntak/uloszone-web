@@ -91,4 +91,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/products/{id}', 'ProductController@show');
+Route::get('/search', 'HomeController@search');
 

@@ -29,13 +29,15 @@
 
     <div id="app" class="mt-100">
         <carousel-asd />
+        
     </div>
 
-    <div id="new-product">
+    <div id="new-product" >
         @if(Auth::check())
             <new-products :user-id="{{Auth::user()->id}}" />
         @else
             <new-products />
+            
         @endif
     </div>
 
