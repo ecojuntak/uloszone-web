@@ -15,5 +15,10 @@ class Product extends Model
 
     protected $fillable = ['name', 'price', 'stock', 'description', 'category', 'specification', 'image', 'color'];
     protected $dates = ['deleted_at'];
+
+    public static function scopeSearch($query, $searchTerm) {
+    	return $query->where('color', 'like', '%' .$searchTerm. '%')
+                     ->orWhere('price', 'like', '%' .$searchTerm. '%');
+    }
 }
 	
