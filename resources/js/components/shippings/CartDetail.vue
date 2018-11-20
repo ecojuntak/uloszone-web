@@ -85,15 +85,30 @@ export default {
             merchantNames.push(merchantName);
             this.merchants.push({
               name: merchantName,
+              id: cart.product.merchant.id,
               address: JSON.parse(JSON.parse(merchantAddress)[0]),
               totalWeight: 1000 * cart.total * JSON.parse(cart.product.specification).weight,
               totalProductCost: cart.product.price * cart.total,
               totalShippingCost: 0,
+              products: [
+                {
+                  productId: cart.product.id,
+                  quantity: cart.total,
+                  cartId: cart.id,
+                }
+              ]
             });
           } else {
             this.merchants.forEach(merchant => {
               if(merchant.name === merchantName) {
                 merchant.totalProductCost += cart.product.price * cart.total
+                merchant.products.push(
+                  {
+                    productId: cart.product.id,
+                    quantity: cart.total,
+                    cartId: cart.id,
+                  }
+                )
               }
             });
           }
@@ -124,13 +139,19 @@ export default {
         })
       );
 
-      this.publishMerchantsListEvent(this.merchants);
+      const transactionDetail = {
+        merchants: this.merchants,
+        customerAddress: address,
+        customerId: this.userId,
+      }
+
+      this.publishFinalTransactionDetail(transactionDetail);
     },
     publishMerchantsListEvent(merchants) {
       EventBus.$emit("MERCHANT_LIST", merchants);
     },
-    publishTotalShippingCostEvent(shippingCost) {
-      EventBus.$emit("TOTAL_SHIPPING_COST", shippingCost);
+    publishFinalTransactionDetail(transactionDetail) {
+      EventBus.$emit("FINAL_TRANSACTION_DETAIL", transactionDetail);
     }
   },
   async mounted() {

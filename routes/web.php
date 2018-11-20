@@ -24,7 +24,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/login', function() {
     return redirect('/');
-});
+})->name('login');
 
 Route::get('/profile', function () {
     return 'This is Profile';
@@ -39,8 +39,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/admin', 'AdminController@index');
-
-        Route::get('/merchantconfirmed', 'MerchantController@merchantbeforeconfirmed');
+        Route::post('/merchantconfirmed/{id}', 'MerchantController@updateConfirm');
+        Route::get('/admin/newmerchant', 'MerchantController@newmerchant');
+        Route::get('/admin/neworder', 'OrderController@neworder');
 
         Route::get('/roles', 'RoleController@index');
         Route::post('/roles/store', 'RoleController@store');
@@ -49,6 +50,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/permissions', 'PermissionController@index');
         Route::post('/permissions/store', 'PermissionController@store');
         Route::post('/permissions/update/{id}', 'PermissionController@update');
+
+        Route::get('/blog', 'BlogController@index');
+        Route::get('/blog/create', 'BlogController@create');
+        Route::get('/blog/edit/{id}', 'BlogController@edit');
+        Route::post('/blog/delete/{id}', 'BlogController@destroy');
+        Route::post('/blog/update/{id}', 'BlogController@update');
+        Route::post('/blog/store', 'BlogController@store');
+        
+        Route::post('/orderconfirm/{id}', 'OrderController@orderconfirm');
     });
 
     Route::middleware('role:merchant')->group(function () {
@@ -57,13 +67,14 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/merchant/products')->group(function () {
             Route::get('/', 'MerchantController@products');
         });
-        Route::get('/merchant/orders', 'MerchantController@orders');
+
+        Route::get('/merchant/{id}/orders', 'MerchantController@orders');
     });
 
     Route::middleware('role:customer')->group(function () {
         Route::post('/carts/delete/{id}', 'CartController@destroy');
-
         Route::get('/shipping', 'ShippingController@index');
+        Route::get('/transactions/{id}', 'TransactionController@show');
     });
 
     Route::middleware('role:costumer|admin')->group(function () {

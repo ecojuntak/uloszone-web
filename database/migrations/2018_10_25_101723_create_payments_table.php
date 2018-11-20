@@ -18,12 +18,12 @@ class CreatePaymentsTable extends Migration
             $table->integer('transaction_id')->unsigned();
             $table->integer('product_cost');
             $table->integer('shipping_cost');
-            $table->integer('product_discount');
-            $table->integer('shipping_discount');
-            $table->string('date');
-            $table->string('status');
-            $table->string('image');
-            $table->string('cancelation_reason');
+            $table->integer('product_discount')->default(0);
+            $table->integer('shipping_discount')->default(0);
+            $table->string('date')->nullable();
+            $table->string('status')->default('pending');
+            $table->string('image')->nullable();
+            $table->string('cancelation_reason')->nullable();
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions');
