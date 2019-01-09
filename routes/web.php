@@ -109,7 +109,7 @@ Route::middleware(['auth', 'verified', 'verifiedByAdmin'])->group(function () {
         Route::prefix('/merchant/products')->group(function () {
             Route::get('/', 'MerchantController@products');
         });
-
+        Route::get('/merchant/profile/{id}', 'ProfileController@getProfile');
         Route::get('/merchant/{id}/new-orders', 'MerchantController@getNewOrders');
         Route::get('/merchant/{id}/ongoing-orders', 'MerchantController@getOngoingOrders');
     });
@@ -117,6 +117,7 @@ Route::middleware(['auth', 'verified', 'verifiedByAdmin'])->group(function () {
     Route::middleware('role:customer')->group(function () {
         Route::post('/carts/delete/{id}', 'CartController@destroy');
         Route::get('/shipping', 'ShippingController@index');
+        Route::get('/customer/profile/{id}', 'ProfileController@getProfile');
         Route::get('/customer/transactions/{id}', 'TransactionController@show');
         Route::get('/customer/{id}/orders', 'TransactionController@getTransactionByUser');
         Route::get('/customer/{userId}/transactions/{transactionId}/tracking', 'TransactionController@getTrackingInfo');

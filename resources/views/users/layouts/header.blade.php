@@ -112,7 +112,7 @@ font-size: 1rem;">Pesanan</a>
                         <div class="user-menu dropdown-menu mt-2" style="border: 1px solid #e0e0e0; left: -70px;">
                             <ul class="dropdown">
                                 <li>
-                                    <a class="nav-link" href="#">My Profile</a>
+                                    <a class="nav-link" href="{{ url('/customer/profile/' . Auth::user()->id )}}">My Profile</a>
                                 </li>
                                 <li>
                                     <form method="POST" action="{{ url('/logout')}}">
@@ -268,7 +268,7 @@ font-size: 1rem;">Pesanan</a>
                         <div class="user-menu dropdown-menu mt-2" style="border: 1px solid #e0e0e0; left: -70px;">
                             <ul class="dropdown">
                                 <li>
-                                    <a class="nav-link" href="#">My Profile</a>
+                                <a class="nav-link" href="{{ url('/merchant/profile/' . Auth::user()->id )}}">My Profile</a>
                                 </li>
                                 <li>
                                     <form method="POST" action="{{ url('/logout')}}">

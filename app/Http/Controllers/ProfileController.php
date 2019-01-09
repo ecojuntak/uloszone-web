@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Profile;
+use App\User;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -84,10 +85,11 @@ class ProfileController extends Controller
     }
 
     public function getProfile($id) {
-        return response(Profile::where('user_id', $id)->first());
-    }
-    
+        $user = User::find($id);
+        $user->profile->address = json_decode(json_decode($user->profile->address)[0]);
+        return view('users.profiles.index')->with('user', $user);
 
+    }
 
     public function updateAddress(Request $request, $id) {
         $profile = Profile::where('user_id', $id)->first();
